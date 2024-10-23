@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>   
    <head>
-      <meta charset="UTF-8">      
+      <meta charset="UTF-8"> 
+      <link href="receita4.css" rel="stylesheet">  
    </head>
 
    <body>
@@ -9,28 +10,46 @@
    </body>   
 
    <script>
+      // Array de objetos com mais informações sobre cada cerveja
+      let cervejas = [
+         { nome: "Guiness", origem: "Irlanda", tipo: "Stout" },
+         { nome: "Desperados", origem: "França", tipo: "Lager com Tequila" },
+         { nome: "Becks", origem: "Alemanha", tipo: "Pilsner" }
+      ]
 
-      let cervejas = ["Guiness", "Desperados", "Becks"]
-
-      function transformar(item){
-        return `<h1>${item}</h1>`
+      // Função que transforma cada item (cerveja) em uma linha da tabela
+      function transformar(cerveja){
+         return `<tr>
+                   <td>${cerveja.nome}</td>
+                   <td>${cerveja.origem}</td>
+                   <td>${cerveja.tipo}</td>
+                </tr>`
       }
 
       function carregarDiv(){
          let div = document.getElementById("meu amor")
-         //let cervejasHtml = [`<h1>${cervejas[0]}</h1>`,`<h1>${cervejas[1]}</h1>`, `<h1>${cervejas[2]}</h1>`] 
          
-         //$ usado para injetar strings. String sempre entre acento grave``.
-         //let cervejasHtml = [`<h1>${cervejas[0]}</h1>`,`<h1>${cervejas[1]}</h1>`, `<h1>${cervejas[2]}</h1>`] 
-
+         // Mapeia os itens do array cervejas e cria uma linha para cada cerveja
          let cervejasHtml = cervejas.map(transformar) 
-         //O comportamento default de transformar array em um string é transformar cada um de seus itens em string e separá-los por vírgula
-         div.innerHTML = `${cervejasHtml.join("\n")}`
+         
+         // Insere a estrutura da tabela na div
+         div.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Cerveja</th>
+                  <th>Origem</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${cervejasHtml.join("\n")}
+              </tbody>
+            </table>`
       }
 
       let botao = document.getElementById("botaoCarregar")
       botao.addEventListener("click", carregarDiv)  
-      
    </script>
 
 </html>
