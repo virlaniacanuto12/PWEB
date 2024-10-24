@@ -6,7 +6,9 @@
    </head>
 
    <body>
-      <div id="meu amor"><button id="botaoCarregar">Carregando cervejas...</button></div>            
+      <div id="meu_amor"><button id="botaoCarregar">Carregando cervejas...</button></div>            
+      <div id="ordenacao"><button id="botaoOrdenar">Ordenando</button></div>       
+      <div id="embaralharDiv"><button id="botaoEmbaralhar">Embaralhar</button></div>       
    </body>   
 
    <script>
@@ -15,7 +17,21 @@
          { nome: "Guiness", origem: "Irlanda", tipo: "Stout" },
          { nome: "Desperados", origem: "França", tipo: "Lager com Tequila" },
          { nome: "Becks", origem: "Alemanha", tipo: "Pilsner" }
-      ]
+      ];
+
+      // Função para ordenar o array de cervejas por nome
+      const ordenar = () => {
+         cervejas.sort((a, b) => a.nome.localeCompare(b.nome));
+         carregarDiv(); // Recarrega a tabela após ordenar
+      };
+
+      function embaralhar(array) {
+         for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+         }
+         return array;
+      }
 
       // Função que transforma cada item (cerveja) em uma linha da tabela
       function transformar(cerveja){
@@ -23,14 +39,15 @@
                    <td>${cerveja.nome}</td>
                    <td>${cerveja.origem}</td>
                    <td>${cerveja.tipo}</td>
-                </tr>`
+                </tr>`;
       }
 
+      // Função para carregar a tabela com os dados das cervejas
       function carregarDiv(){
-         let div = document.getElementById("meu amor")
+         let div = document.getElementById("meu_amor");
          
          // Mapeia os itens do array cervejas e cria uma linha para cada cerveja
-         let cervejasHtml = cervejas.map(transformar) 
+         let cervejasHtml = cervejas.map(transformar);
          
          // Insere a estrutura da tabela na div
          div.innerHTML = `
@@ -45,11 +62,26 @@
               <tbody>
                 ${cervejasHtml.join("\n")}
               </tbody>
-            </table>`
+            </table>`;
+
+         document.getElementById("botaoOrdenar").style.display = "inline-block";
+
       }
 
-      let botao = document.getElementById("botaoCarregar")
-      botao.addEventListener("click", carregarDiv)  
-   </script>
+      // Evento para carregar a tabela inicial ao clicar no botão "Carregar"
+      let botaoCarregar = document.getElementById("botaoCarregar");
+      botaoCarregar.addEventListener("click", carregarDiv);
+      
+      // Evento para ordenar a tabela ao clicar no botão "Ordenar"
+      let botaoOrdenar = document.getElementById("botaoOrdenar");
+      botaoOrdenar.addEventListener("click", ordenar); 
 
+      let botaoEmbaralhar = document.getElementById("botaoEmbaralhar");
+      botaoEmbaralhar.addEventListener("click", () => {
+         embaralhar(cervejas);
+         carregarDiv(); 
+      });
+
+   </script>
 </html>
+
