@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>   
+
+   <head>
+      <meta charset="UTF-8">  
+      <link href="receita4.css" rel="stylesheet">      
+   </head>
+   
+
+   <body>
+      <div><a href="#" id="linkCarregar">Carregar cervejas</a></div>
+      <div><a href="#" id="linkOrdenar">Ordenar</a></div>
+      <div><a href="#" id="linkEmbaralhar">Embaralhar</a></div>
+
+      <div id="meu amor"></div>            
+   </body>   
+
+
+   <script>
+
+      let cervejas = [
+         { nome: "Guiness", origem: "Irlanda", tipo: "Stout" },
+         { nome: "Desperados", origem: "França", tipo: "Lager com Tequila" },
+         { nome: "Becks", origem: "Alemanha", tipo: "Pilsner" }
+      ];
+
+      const transformar = (cerveja) => {
+         return `<tr>
+                   <td>${cerveja.nome}</td>
+                   <td>${cerveja.origem}</td>
+                   <td>${cerveja.tipo}</td>
+                </tr>`;
+      }
+
+      const ordenar = () => {
+         cervejas.sort((a, b) => a.nome.localeCompare(b.nome));
+         carregarDiv(cervejas); // Recarrega a tabela após ordenar
+      };
+
+      const embaralhar = (array) => {
+         for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+         }
+         return array;
+      }
+
+      /*
+      - Callback functions, aquelas funções que são passadas como parâmetro para alguma outra função/método 
+
+      - Como a função transformar só é usada para ser passada como parâmetro pro método map, 
+      ela não precisa nem ser declarada como constante e nem precisa de um nome.
+      É só pegar a definição dela, o que vem depois do sinal de atribuição e passar direto como parâmetro da função map.
+
+      const transformar = (item) => {
+        return `<h1>${item}</h1>`
+      }*/
+            
+      //Const são "variáveis" às quais você deve atribuir valor logo na declaração e que não pode fazer isso (atribuir) mais nunca enquanto a constante viver.
+      const carregarDiv = (cervs = []) => {
+
+
+        //Sempre que se declara uma constante o nome dela deve ser seguido de uma atribuição
+        const div = document.getElementById("meu amor")
+        const cervejasHtml = cervs.map(transformar)
+        div.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Cerveja</th>
+                  <th>Origem</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${cervejasHtml.join("\n")}
+              </tbody>
+            </table>`;
+
+      }
+
+      let carregar = document.getElementById("linkCarregar");
+      carregar.addEventListener("click", (event) => {
+        event.preventDefault();  // Impede o comportamento padrão do link
+        carregarDiv(cervejas);   // Carrega as cervejas
+      });
+
+      let linkOrdenar = document.getElementById("linkOrdenar");
+      linkOrdenar.addEventListener("click", (event) => {
+        event.preventDefault();  // Impede o comportamento padrão do link
+        ordenar();
+      }); 
+
+      let linkEmbaralhar = document.getElementById("linkEmbaralhar");
+      linkEmbaralhar.addEventListener("click", (event) => {
+         event.preventDefault();
+         embaralhar(cervejas);
+         carregarDiv(cervejas); 
+      });              
+
+   </script>
+
+</html>
