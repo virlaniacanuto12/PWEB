@@ -1,60 +1,78 @@
 <!DOCTYPE html>
+<html>
 
-<html>   
+<head>
+  <meta charset="UTF-8">
+  <link href="receita6.css" rel="stylesheet">      
 
-   <head>
+</head>
 
-      <meta charset="UTF-8">      
+<body>
+  <div><button id="botaoCarregar">Carregar cervejas...</button></div>
 
-   </head>
+  <div id="cervejasDiv"></div>
 
+</body>
 
-   <body>
+<script>
+  let cervejas = [
+    {
+      name: "Guiness",
+      alcohol: "10%",
+      style: "Red Ale",
+      ibu: "15"
+    },
+    {
+      name: "Desperados",
+      alcohol: "6%",
+      style: "Cream Ale",
+      ibu: "17"
+    },
+    {
+      name: "Becks",
+      alcohol: "5%",
+      style: "English IPA",
+      ibu: "19"
+    }
+  ]
+  // 'cervejas' é um array de objetos
 
-      <div><button id="botaoCarregar">Carregando cervejas...</button></div>
+  // Função para carregar as cervejas em uma única tabela
+  const carregarDiv = cs => {
+    const div = document.getElementById("cervejasDiv");
 
-      <div id="cervejasDiv"></div>            
+    // Gerar uma tabela única com todas as cervejas
+    const itensHtml = `
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Álcool</th>
+            <th>Style</th>
+            <th>Ibu</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${cs.map(({ name, alcohol, style, ibu }) => {
+            return `
+              <tr>
+                <td>${name}</td>
+                <td>${alcohol}</td>
+                <td>${style}</td>
+                <td>${ibu}</td>
+              </tr>
+            `;
+          }).join("")}
+        </tbody>
+      </table>
+    `;
 
-   </body>   
+    div.innerHTML = itensHtml;
+  }
 
-   
+  let botao = document.getElementById("botaoCarregar");
 
-   <script>
-
-        let cervejas = [
-        {
-        name: "Guiness", 
-        alcohol: "10%"            
-        }, 
-
-        {
-        name: "Desperados",
-        alcohol: "6%"             
-        }, 
-
-        {
-        name: "Becks",
-        alcohol: "5%"             
-        }
-        ]
-      //cs é um array de cervejas
-
-      const carregarDiv = cs => {
-
-         const div = document.getElementById("cervejasDiv")
-
-         //const itensHtml = cs.map( item => `<div>${item.name} -- ${item.alcohol} </div>` ) 
-         const itensHtml = cs.map( ({name,alcohol}) => `<div>${name} -- ${alcohol}</div>` ) 
-         div.innerHTML = `${itensHtml.join("\n")}`
-
-      }
-
-
-      let botao = document.getElementById("botaoCarregar")
-
-      botao.addEventListener("click", () => carregarDiv(cervejas) )                 
-
-
-   </script>
+  botao.addEventListener("click", () => carregarDiv(cervejas));
+</script>
 
 </html>
