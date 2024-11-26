@@ -35,40 +35,46 @@
       ibu: "19"
     }
   ]
-  // 'cervejas' é um array de objetos
 
-  // Função para carregar as cervejas em uma única tabela
-  const carregarDiv = cs => {
-    const div = document.getElementById("cervejasDiv");
+  const carregarDiv = (cs, targetId = "cervejasDiv", headers = ["Nome", "Álcool", "Estilo", "Amargor"]) => {
+  // Obtém o elemento pelo ID passado 
+  const div = document.getElementById(targetId);
 
-    // Gerar uma tabela única com todas as cervejas
-    const itensHtml = `
+  if (!div) {
+    console.error(`Elemento com o ID "${targetId}" não encontrado.`);
+    return;
+  }
+
+  // Gerando cabeçalhos dinâmicos
+  const headerHtml = headers.map(header => `<th>${header}</th>`).join("");
+
+  const bodyHtml = cs.map(({ name, alcohol, style, ibu }) => {
+    return `
+      <tr>
+        <td>${name}</td>
+        <td>${alcohol}</td>
+        <td>${style}</td>
+        <td>${ibu}</td>
+      </tr>
+    `;
+  }).join("");
+
+  const itensHtml = `
       <table border="1">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Álcool</th>
-            <th>Style</th>
-            <th>Ibu</th>
+            ${headerHtml}
           </tr>
         </thead>
         <tbody>
-          ${cs.map(({ name, alcohol, style, ibu }) => {
-            return `
-              <tr>
-                <td>${name}</td>
-                <td>${alcohol}</td>
-                <td>${style}</td>
-                <td>${ibu}</td>
-              </tr>
-            `;
-          }).join("")}
+          ${bodyHtml}
         </tbody>
       </table>
     `;
 
-    div.innerHTML = itensHtml;
-  }
+  // Carrega a tabela no elemento especificado
+  div.innerHTML = itensHtml;
+};
 
   let botao = document.getElementById("botaoCarregar");
 
