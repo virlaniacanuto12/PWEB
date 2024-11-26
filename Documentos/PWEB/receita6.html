@@ -36,25 +36,24 @@
     }
   ]
 
-  const carregarDiv = (cs, targetId = "cervejasDiv", headers = ["Nome", "Álcool", "Estilo", "Amargor"]) => {
-  // Obtém o elemento pelo ID passado 
+  const carregarDiv = (
+  cs,
+  targetId = "cervejasDiv",
+  headers = ["Nome", "Álcool", "Estilo", "Amargor"],
+  properties = ["name", "alcohol", "style", "ibu"]
+) => {
+  // Obtém o elemento pelo ID passado (ou usa o padrão "cervejasDiv")
   const div = document.getElementById(targetId);
 
-  if (!div) {
-    console.error(`Elemento com o ID "${targetId}" não encontrado.`);
-    return;
-  }
 
-  // Gerando cabeçalhos dinâmicos
+  // Gerando cabeçalhos da tabela de forma dinâmica
   const headerHtml = headers.map(header => `<th>${header}</th>`).join("");
 
-  const bodyHtml = cs.map(({ name, alcohol, style, ibu }) => {
+  // Gerando tabela de forma dinâmica com base nas propriedades
+  const bodyHtml = cs.map(obj => {
     return `
       <tr>
-        <td>${name}</td>
-        <td>${alcohol}</td>
-        <td>${style}</td>
-        <td>${ibu}</td>
+        ${properties.map(prop => `<td>${obj[prop] || ""}</td>`).join("")}
       </tr>
     `;
   }).join("");
@@ -72,7 +71,7 @@
       </table>
     `;
 
-  // Carrega a tabela no elemento especificado
+  // Carrega tabela no elemento especificado
   div.innerHTML = itensHtml;
 };
 
